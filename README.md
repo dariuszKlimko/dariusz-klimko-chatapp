@@ -24,8 +24,8 @@ This is fullstack project and this is my third app.
 * [Node.js](https://nodejs.org/en/)
   * [Express.js](https://expressjs.com/)
   * [React.js](https://create-react-app.dev/)
-  * [Socket.IO](https://socket.io/)
-  * [WebRTC](https://webrtc.org/)
+ * [Socket.IO](https://socket.io/)
+ * [WebRTC](https://webrtc.org/)
 
 ## Setup
 Create folder "ChatApp".
