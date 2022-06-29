@@ -79,7 +79,7 @@ Create folder "ChatApp".
   npm install @emotion/react@11.7.1 @emotion/styled@11.6.0 @mui/icons-material@5.3.1 @mui/material@5.3.0 @mui/styles@5.5.1
   ```
   ```
-  npm install axios emoji-picker-react@3.5.1 js-cookie@3.0.1 material-ui-phone-number@^3.0.0 react-file-viewe@1.2.1 react-responsive react-router-dom@6.2.1
+  npm install axios emoji-picker-react@3.5.1 js-cookie@3.0.1 material-ui-phone-number@^3.0.0 react-file-viewer@1.2.1 react-responsive react-router-dom@6.2.1
   ```
   ```
   npm install react-scroll@1.8.6 react-textarea-autosize@8.3.3 react-uuid@1.0.2 socket.io-client@4.4.1 socketio-file-upload@0.7.3
