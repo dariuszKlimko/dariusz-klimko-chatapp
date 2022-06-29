@@ -85,6 +85,24 @@ Create folder "ChatApp".
   npm install react-scroll@1.8.6 react-textarea-autosize@8.3.3 react-uuid@1.0.2 socket.io-client@4.4.1 socketio-file-upload@0.7.3
   ```
  * ### Backend
+ In Your mySQL database create 'users' table:
+ ```
+     `CREATE TABLE IF NOT EXISTs users(
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name  VARCHAR(255) NOT NULL,
+        tel BIGINT NOT NULL,
+        avatar VARCHAR(255) NOT NULL,
+        contacts VARCHAR(255) NOT NULL,
+        uid VARCHAR(255) NOT NULL,
+        verified INT NOT NULL,
+        sms_code INT NOT NULL,
+        sms_code_expire_date VARCHAR(255) NOT NULL,
+        force_logout_code INT NOT NULL,
+        force_logout_code_expire_date VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+ ```
+ 
  In "Ecommerce" create folder "backend".
  
  Download all files (without package.json and package-lock.json) from folder "backend" in repository and paste it into Ecommerce/backend.
