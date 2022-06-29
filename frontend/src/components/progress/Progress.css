@@ -1,0 +1,73 @@
+.container{
+	min-width: 80px;
+	max-width: 80px;
+	min-height: 12px;
+	max-height: 12px;
+	border-radius: 6px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+	/* padding-top: 37%; */
+}
+.space{
+	min-width: 25px;
+}
+.ball1{
+	margin: auto;
+	min-width: 8px;
+	max-width: 8px;
+	min-height: 8px;
+	max-height: 8px;
+	border-radius: 4px;
+	background-color: #0288d1;
+	animation: mymove 2s infinite;
+  	animation-delay: 0s;
+}
+.ball2{
+	margin: auto;
+	min-width: 8px;
+	max-width: 8px;
+	min-height: 8px;
+	max-height: 8px;
+	border-radius: 4px;
+	background-color: #0288d1;
+	animation: mymove 2s infinite;
+	animation-delay: 0.2s;
+}
+.ball3{
+	margin: auto;
+	min-width: 8px;
+	max-width: 8px;
+	min-height: 8px;
+	max-height: 8px;
+	border-radius: 4px;
+	background-color: #0288d1;
+	animation: mymove 2s infinite;
+	animation-delay: 0.4s;
+}
+.ball4{
+	margin: auto;
+	min-width: 8px;
+	max-width: 8px;
+	min-height: 8px;
+	max-height: 8px;
+	border-radius: 4px;
+	/* background-color: #2be905; */
+	background-color: #0288d1;
+	animation: mymove 2s infinite;
+	animation-delay: 0.6s;
+}
+.name{
+	color: #0288d1;
+	font-size: 170%;
+}
+.tel{
+	color: #0288d1;
+	font-size: 60%;
+}
+@keyframes mymove {
+  0% {transform: scale(1);}
+  50%{transform: scale(3);}
+   100% {transform: scale(1);}
+}
