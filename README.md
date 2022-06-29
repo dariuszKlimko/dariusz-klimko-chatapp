@@ -38,19 +38,9 @@ Create folder "ChatApp".
   ```
   "proxy": "http://localhost:8000",
   ```
-  Download .env file and paste into frontend folder.
+  Open "froontend" folder and delete all(without package.json, package-lock.json, node_modules) files inside.
   
-  Open .env and insert all keys and ect.
-   * recaptcha_site_key
-   * your_domain = http://localhost:8000/
-   * your_stun_server_host
-   * your_turn_server_host
-   * your_stun/turn_server_username
-   * your_stun/turn_server_passowrd
-  
-  Open "src" folder and delete all files inside.
-  
-  Download frontend code from "src" in repository and paste into "src".
+  Download frontend code from repository and paste into "frontend".
   ```
    public/
    src/
@@ -71,6 +61,15 @@ Create folder "ChatApp".
    .gitignore
    .README.md
   ```
+  
+  Open .env and insert all keys and ect.
+   * recaptcha_site_key
+   * your_domain = http://localhost:8000/
+   * your_stun_server_host
+   * your_turn_server_host
+   * your_stun/turn_server_username
+   * your_stun/turn_server_passowrd
+  
   Go to "frontend" folder and install packages.
   ```
   cd frontend
