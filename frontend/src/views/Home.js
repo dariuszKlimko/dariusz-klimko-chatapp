@@ -114,7 +114,7 @@ function Home() {
   useEffect(()=>{
     let cancelRequest = false
     !cancelRequest&&fetchHookGetConversations()
-    return cancelRequest = true
+    return () => cancelRequest = true
   },[])
   // --------------------------------------------------------------------------------------------------
   useEffect(()=>{
