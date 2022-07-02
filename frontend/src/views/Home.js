@@ -6,6 +6,7 @@ import uuid from 'react-uuid';
 import { useMediaQuery } from 'react-responsive';
 import usePrevious from '../customHooks/usePrevious.js';
 import useMouseMove from '../customHooks/useMouseMove.js';
+import useClick from '../customHooks/useClick.js';
 import useAxios from '../customHooks/useAxios';
 import '../App.css';
 import socket from '../components/Socket.js';
@@ -99,7 +100,9 @@ function Home() {
   const [audioContact] = useContext(AudioContactContext)
 
   const prevAllContacts = usePrevious(allContacts);
-  const audioInteract = useMouseMove()
+  const audioInteract = useClick()
+  const mouseMove = useMouseMove()
+  
   const { response: responseGetConversations, error: errorGetConversations, fetchHook: fetchHookGetConversations } = useAxios({url:urlConversations, method: 'get', headers: null, data: null})
 
 // --------------------------------------------------------------------------------------------------
