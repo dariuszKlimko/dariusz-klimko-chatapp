@@ -39,8 +39,8 @@ import ConditionContext from '../contexts/CondidionContext.js';
 import InteractContext from '../contexts/InteractContext'
 import CallUserFlagContext from '../contexts/CallUserFlagContext.js';
 import OfflineContext from '../contexts/OfflineContext.js';
-import audio_1 from '../audio/Messenger_-_Sound_Sms_Message_Tone_Notification_efepn7.mp3'
-import audio_2 from '../audio/Sms_Tone_p99loh.mp3'
+import AudioMessageContext from '../contexts/AudioMessageContext'
+import AudioContactContext from '../contexts/AudioContactContext'
 
 
 function Home() {
@@ -49,9 +49,6 @@ function Home() {
   const urlClearCookies = '/clearCookies'
   const urlCalls = '/calls'
   const urlConversations = '/conversations'
-
-  const [audioMessage] = useState(new Audio(audio_1))
-  const [audioContact] = useState(new Audio(audio_2))
 
   const navigate = useNavigate();
 
@@ -98,6 +95,8 @@ function Home() {
   const [interact, setInteract] = useContext(InteractContext)
   const [callUserFlag, setCallUserFlag] = useContext(CallUserFlagContext)
   const [offline, setOffline] = useContext(OfflineContext)
+  const [audioMessage] = useContext(AudioMessageContext)
+  const [audioContact] = useContext(AudioContactContext)
 
   const prevAllContacts = usePrevious(allContacts);
   const audioInteract = useMouseMove()

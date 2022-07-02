@@ -41,7 +41,16 @@ import ConditionContext from './contexts/CondidionContext'
 import DiscardContext from './contexts/DiscardContext'
 import InteractContext from './contexts/InteractContext'
 import OfflineContext from './contexts/OfflineContext'
+import AudioMessageContext from './contexts/AudioMessageContext'
+import AudioContactContext from './contexts/AudioContactContext'
+import AudioCallingContext from './contexts/AudioCallingContext'
+import AudioBusyContext from './contexts/AudioBusyContext'
 import { createTheme, ThemeProvider } from '@mui/material';
+import audio_1 from '../audio/Messenger_-_Sound_Sms_Message_Tone_Notification_efepn7.mp3'
+import audio_2 from '../audio/Sms_Tone_p99loh.mp3'
+import audio_3 from './audio/phone-calling-1_tdmwfg.mp3'
+import audio_4 from './audio/phone-busy-1_nn011n.mp3'
+
 
 const theme = createTheme({
   breakpoints: {
@@ -61,6 +70,11 @@ function App() {
   const recaptchaVerivyUrl = '/recaptchaVerify'
 
   const script = document.createElement("script")
+
+  const [audioMessage] = useState(new Audio(audio_1))
+  const [audioContact] = useState(new Audio(audio_2))
+  const [audioCalling] = useState(new Audio(audio_3))
+  const [audioBusy] = useState(new Audio(audio_4))
 
   const [userData, setUserData] = useState('')
   const [allContacts, setAllContacts] = useState([])
@@ -170,6 +184,10 @@ function App() {
     <DiscardContext.Provider value={[discard, setDiscard]}>
     <InteractContext.Provider value={[interact, setInteract]}>
     <OfflineContext.Provider value={[offline, setOffline]}>
+    <AudioMessageContext.Provider value={[audioMessage]}>
+    <AudioContactContext.Provider value={[audioContact]}>
+    <AudioCallingContext.Provider value={[audioCalling]}>
+    <AudioBusyContext.Provider value={[audioBusy]}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
@@ -180,6 +198,10 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
+    </AudioBusyContext.Provider>
+    </AudioCallingContext.Provider>
+    </AudioContactContext.Provider>
+    </AudioMessageContext.Provider>
     </OfflineContext.Provider>
     </InteractContext.Provider>
     </DiscardContext.Provider> 

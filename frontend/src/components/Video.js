@@ -17,6 +17,8 @@ import MissedCallAnswerFlagContext from "../contexts/MissedCallAnswerFlagContext
 import ImCallingFlagContext from "../contexts/ImCallingFlagContext.js";
 import InteractContext from "../contexts/InteractContext.js";
 import MobileContext from "../contexts/MobileContext.js";
+import AudioCallingContext from '../contexts/AudioCallingContext'
+import AudioBusyContext from '../contexts/AudioBusyContext'
 import { IconButton } from '@mui/material';
 import FullscreenTwoToneIcon from '@mui/icons-material/FullscreenTwoTone';
 import FullscreenExitTwoToneIcon from '@mui/icons-material/FullscreenExitTwoTone';
@@ -24,16 +26,11 @@ import VideocamTwoToneIcon from '@mui/icons-material/VideocamTwoTone';
 import VideocamOffTwoToneIcon from '@mui/icons-material/VideocamOffTwoTone';
 import ScreenShareTwoToneIcon from '@mui/icons-material/ScreenShareTwoTone';
 import VideoCameraFrontTwoToneIcon from '@mui/icons-material/VideoCameraFrontTwoTone';
-import audio_3 from '../audio/phone-calling-1_tdmwfg.mp3'
-import audio_4 from '../audio/phone-busy-1_nn011n.mp3'
 
 
 function Video() {
 
   const timeStamp = new Date().toString()
-
-  const [audioCalling] = useState(new Audio(audio_3))
-  const [audioBusy] = useState(new Audio(audio_4))
 
   const isSmallScreen610 = useMediaQuery({ query: '(max-width: 610px)' })
   
@@ -42,7 +39,6 @@ function Video() {
   const remoteVideoRef = useRef(null)
   const movingVideoRef = useRef(null)
 
-  let pc = null
   const peer = useRef(null)
   const cndt = useRef([])
 
@@ -69,6 +65,8 @@ function Video() {
   const [missedCallAnswerFlag, setMissedCallAnswerFlag] = useContext(MissedCallAnswerFlagContext)
   const [interact, setInteract] = useContext(InteractContext)
   const [mobile, setMobile] = useContext(MobileContext)
+  const [audioCalling] = useContext(AudioCallingContext)
+  const [audioBusy] = useContext(AudioBusyContext)
 
   const configuration = { 
     iceServers: 
@@ -104,25 +102,27 @@ function Video() {
 // ---------------------------------------------------------
   const webrtcCleanupFunction = async() =>{
     try{
-      localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
-        track.stop();
-      });
-      pc = peer.current
-      interact&&audioCalling.pause()
-      interact&&audioBusy.pause()
-      if(pc!=null){
-        await pc.close()
+      if( peer.current != null && localVideoRef.current.hasOwnProperty('srcObject')){ 
+        localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
+          track.stop();
+        });
+        // if(interact)audioCalling.pause()
+        // if(interact)audioBusy.pause()
+        if(peer.current!=null){
+          await peer.current.close()
+        }
+        cndt.current = [] 
+        peer.current = null
+        setCallUserFlag(false)
+        setVideo(false)
+        setAnswerMade('')
+        setCandidateAnswer('')
+        setDisconnect(false)
+        setImCallingFlag(false)
+        setConversationFlag(false)
       }
-      pc = null
-      cndt.current = []
-      peer.current = pc 
-      setCallUserFlag(false)
-      setVideo(false)
-      setAnswerMade('')
-      setCandidateAnswer('')
-      setDisconnect(false)
-      setImCallingFlag(false)
-      setConversationFlag(false)
+      if(interact)audioCalling.pause()
+      if(interact)audioBusy.pause()
     }
     catch(err){
       console.error("Error: " + err);
@@ -147,23 +147,23 @@ function Video() {
       try{
         if(peer.current==null){
           !mobile&&setMobile(true)
-          interact&&audioCalling.play()
+          if(interact)audioCalling.play()
 
           if(callUserFlag){
             setCaller(true)
 
-            pc = new RTCPeerConnection(configuration)
+            peer.current = new RTCPeerConnection(configuration)
             localVideoRef.current.srcObject = await navigator.mediaDevices.getUserMedia({audio: true, video: true})
-            localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(track=>pc.addTrack(track,localVideoRef.current.srcObject)) 
-            if(pc!=null){
-              const offer = await pc.createOffer();
-              await pc.setLocalDescription(offer);
+            localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(track=>peer.current.addTrack(track,localVideoRef.current.srcObject)) 
+            if(peer.current!=null){
+              const offer = await peer.current.createOffer();
+              await peer.current.setLocalDescription(offer);
               socket.emit("call user", {
                 offer: offer,
                 toSocket: messageInputData.socketId
               })
             }
-            webrtcEventsFunction(pc)
+            webrtcEventsFunction(peer.current)
           }
         }
       }
@@ -182,8 +182,8 @@ function Video() {
     if(!connected&&callUserFlag){
       timer = setTimeout(()=>{
         const uid = uuid()
-        interact&&audioCalling.pause()
-        interact&&audioBusy.play()
+        if(interact)audioCalling.pause()
+        if(interact)audioBusy.play()
         socket.emit("missed call", {
           toSocket: messageInputData.socketId,
           created_at: timeStamp,
@@ -205,18 +205,17 @@ function Video() {
     try{
       setProgressFlag(true)
 
-      pc = new RTCPeerConnection(configuration)
-      webrtcEventsFunction(pc)
+      peer.current = new RTCPeerConnection(configuration)
+      webrtcEventsFunction(peer.current)
 
       const { offer, fromSocket} = callMade
-      pc = peer.current
-      interact&&audioCalling.pause()
-      await pc.setRemoteDescription(offer)
+      if(interact)audioCalling.pause()
+      await peer.current.setRemoteDescription(offer)
       localVideoRef.current.srcObject = await navigator.mediaDevices.getUserMedia({ audio: true, video: true,})
-      localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(track=>pc.addTrack(track,localVideoRef.current.srcObject))
+      localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(track=>peer.current.addTrack(track,localVideoRef.current.srcObject))
       if(localVideoRef.current.srcObject){
-        const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
+        const answer = await peer.current.createAnswer();
+        await peer.current.setLocalDescription(answer);
         socket.emit("make answer", {
           answer: answer,
           toSocket: fromSocket
@@ -224,7 +223,6 @@ function Video() {
       }
       setCallUserFlag(true)
       setConnected(true)
-      peer.current=pc
     }
     catch(err){
       console.error("Error: " + err);
@@ -234,17 +232,15 @@ function Video() {
   useEffect(()=>{
     const fetchData = async() =>{
       try{
-        interact&&audioCalling.pause()
+        if(interact)audioCalling.pause()
         const {answer, fromSocket, candidate} = answerMade
-        pc = peer.current
-        await pc.setRemoteDescription(answer)
+        await peer.current.setRemoteDescription(answer)
         const uid = uuid()
         socket.emit("answer made call", {
           toSocket: fromSocket,
           created_at: timeStamp,
           uuid: uid
         })
-        peer.current = pc
         setProgressFlag(true)
         setConnected(true)
       }
@@ -263,13 +259,11 @@ function Video() {
   useEffect(()=>{
       if(candidateAnswer!=''){
         const {candidate, fromSocket} = candidateAnswer
-        pc = peer.current
         cndt.current = [...cndt.current, candidate]
         if(cndt.current.length!=0){
           cndt.current.map(c=>{
-            localVideoRef.current&&localVideoRef.current.srcObject&&pc.addIceCandidate(c)
+            localVideoRef.current&&localVideoRef.current.srcObject&&peer.current.addIceCandidate(c)
           })
-          peer.current = pc
         }
       }
   },[candidateAnswer])
@@ -285,27 +279,25 @@ function Video() {
           else{
             setDisconnect(true)
           }
-          pc = peer.current
-          if(progressFlag===true||pc!=null){
+          if(progressFlag===true||peer.current!=null){
             localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
               track.stop();
             });
           }
           if(callUserFlag&&!remoteVideoRef.current.srcObject) {
-            interact&&audioBusy.play()
+            if(interact)audioBusy.play()
           }
-          interact&&audioCalling.pause()
+          if(interact)audioCalling.pause()
           setCallUserFlag(false)
           setVideo(false)
           setAnswerMade('')
           setCandidateAnswer('')
           setImCallingFlag(false)
-          if(pc!=null){
-            await pc.close()
+          if(peer.current!=null){
+            await peer.current.close()
           }
-          pc = null
           cndt.current = []
-          peer.current = pc 
+          peer.current =null
           setConversationFlag(false)
           setAnswerVideoDisconnectFlag(false)
           socket.emit('activeUsers')
@@ -327,8 +319,8 @@ function Video() {
     let timer = null
     if(busyFlag){
       setProgressFlag(true)
-      interact&&audioCalling.pause()
-      interact&&audioBusy.play()
+      if(interact)audioCalling.pause()
+      if(interact)audioBusy.play()
       timer = setTimeout(()=>{
         setVideo(false)
         setCallUserFlag(false)
@@ -341,23 +333,21 @@ function Video() {
   useEffect(()=>{
     const fetchData = async() =>{
       try{
-        pc = peer.current
-        if(progressFlag&&pc!=null){
+        if(progressFlag&&peer.current!=null){
           localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
             track.stop();
           });
         }
-        interact&&audioCalling.pause()
+        if(interact)audioCalling.pause()
         setCallUserFlag(false)
         setVideo(false)
         setAnswerMade('')
         setCandidateAnswer('')
         setImCallingFlag(false)
-        if(pc!=null){
-          await pc.close(); 
+        if(peer.current!=null){
+          await peer.current.close(); 
         }
-        pc = null
-        peer.current = pc 
+        peer.current = null
         setConversationFlag(false)
         setMissedCallAnswerFlag(false)
       }
@@ -451,8 +441,7 @@ function Video() {
             } 
           };
           const videoTrack = localVideoRef.current&&localVideoRef.current.srcObject.getVideoTracks()[0];
-          pc = peer.current
-          const sender = localVideoRef.current&&localVideoRef.current.srcObject&&pc.getSenders().find(function(s) {
+          const sender = localVideoRef.current&&localVideoRef.current.srcObject&&peer.current.getSenders().find(function(s) {
               return s.track.kind == videoTrack.kind;
           });
           localVideoRef.current.srcObject = await navigator.mediaDevices.getUserMedia(constraints);
@@ -479,8 +468,7 @@ function Video() {
             audio: false
           };
           const videoTrack = localVideoRef.current&&localVideoRef.current.srcObject.getVideoTracks()[0];
-          pc = peer.current
-          const sender = localVideoRef.current&&localVideoRef.current.srcObject&&pc.getSenders().find(function(s) {
+          const sender = localVideoRef.current&&localVideoRef.current.srcObject&&peer.current.getSenders().find(function(s) {
               return s.track.kind == videoTrack.kind;
           });
           localVideoRef.current.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
@@ -538,8 +526,7 @@ function Video() {
           disconnect: caller?'is_calling':'is_receiving'
         })
       }
-      pc = peer.current
-      if(pc!=null){
+      if(peer.current!=null){
         localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
           track.stop();
         });
@@ -549,12 +536,11 @@ function Video() {
       setAnswerMade('')
       setCandidateAnswer('')
       setImCallingFlag(false)
-      if(pc!=null){
-        await pc.close()
+      if(peer.current!=null){
+        await peer.current.close()
       } 
-      pc = null
       cndt.current = []
-      peer.current = pc 
+      peer.current = null
       setDisconnect(false)
       setConversationFlag(false)
     }
