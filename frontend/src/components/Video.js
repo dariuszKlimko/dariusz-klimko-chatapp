@@ -300,7 +300,6 @@ function Video() {
           peer.current =null
           setConversationFlag(false)
           setAnswerVideoDisconnectFlag(false)
-          socket.emit('activeUsers')
         }
       }
       catch(err){
