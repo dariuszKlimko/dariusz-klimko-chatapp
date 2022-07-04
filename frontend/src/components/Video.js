@@ -516,6 +516,7 @@ function Video() {
         const uid = uuid()
         socket.emit("call video disconnect", {
           toSocket: messageInputData.socketId,
+          contact: messageInputData.contact,
           created_at: timeStamp,
           uuid: uid,
           connected: connected,

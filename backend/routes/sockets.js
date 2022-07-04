@@ -362,7 +362,7 @@ module.exports = function(io) {
     }
   })
 // -------------------------
-    socket.on("call video disconnect", async({toSocket, created_at, uuid, connected, disconnect})=>{
+    socket.on("call video disconnect", async({toSocket, contact, created_at, uuid, connected, disconnect})=>{
       try{
         socket.to(toSocket).emit("answer video disconnect", {
           fromSocket: socket.id
@@ -374,7 +374,7 @@ module.exports = function(io) {
           arr.push(result)
           let avatar = await getAvatar(arr[0].tel)
           arr[0].avatar = avatar
-          result = allSockets.find(x=>x.userID===toSocket)
+          result = allSockets.find(x=>x.tel===parseInt(contact))
           arr.push(result)
           avatar = await getAvatar(arr[1].tel)
           arr[1].avatar = avatar
