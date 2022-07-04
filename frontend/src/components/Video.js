@@ -106,20 +106,18 @@ function Video() {
         localVideoRef.current&&localVideoRef.current.srcObject.getTracks().forEach(function(track) {
           track.stop();
         });
-        // if(interact)audioCalling.pause()
-        // if(interact)audioBusy.pause()
         if(peer.current!=null){
           await peer.current.close()
         }
         cndt.current = [] 
         peer.current = null
         setCallUserFlag(false)
-        setVideo(false)
         setAnswerMade('')
         setCandidateAnswer('')
         setDisconnect(false)
         setImCallingFlag(false)
         setConversationFlag(false)
+        setVideo(false)
       }
       if(interact)audioCalling.pause()
       if(interact)audioBusy.pause()
@@ -145,10 +143,9 @@ function Video() {
   useEffect(()=>{
     const fetchData = async() =>{
       try{
+        if(interact)audioCalling.play()
         if(peer.current==null){
           !mobile&&setMobile(true)
-          if(interact)audioCalling.play()
-
           if(callUserFlag){
             setCaller(true)
 
@@ -288,11 +285,6 @@ function Video() {
             if(interact)audioBusy.play()
           }
           if(interact)audioCalling.pause()
-          setCallUserFlag(false)
-          setVideo(false)
-          setAnswerMade('')
-          setCandidateAnswer('')
-          setImCallingFlag(false)
           if(peer.current!=null){
             await peer.current.close()
           }
@@ -300,6 +292,11 @@ function Video() {
           peer.current =null
           setConversationFlag(false)
           setAnswerVideoDisconnectFlag(false)
+          setCallUserFlag(false)
+          setAnswerMade('')
+          setCandidateAnswer('')
+          setImCallingFlag(false)
+          setVideo(false)
         }
       }
       catch(err){
@@ -338,17 +335,17 @@ function Video() {
           });
         }
         if(interact)audioCalling.pause()
-        setCallUserFlag(false)
-        setVideo(false)
-        setAnswerMade('')
-        setCandidateAnswer('')
-        setImCallingFlag(false)
         if(peer.current!=null){
           await peer.current.close(); 
         }
         peer.current = null
         setConversationFlag(false)
         setMissedCallAnswerFlag(false)
+        setCallUserFlag(false)
+        setAnswerMade('')
+        setCandidateAnswer('')
+        setImCallingFlag(false)
+        setVideo(false)
       }
       catch(err){
         console.error("Error: " + err);
@@ -530,11 +527,6 @@ function Video() {
           track.stop();
         });
       }
-      setCallUserFlag(false)
-      setVideo(false)
-      setAnswerMade('')
-      setCandidateAnswer('')
-      setImCallingFlag(false)
       if(peer.current!=null){
         await peer.current.close()
       } 
@@ -542,6 +534,11 @@ function Video() {
       peer.current = null
       setDisconnect(false)
       setConversationFlag(false)
+      setCallUserFlag(false)
+      setAnswerMade('')
+      setCandidateAnswer('')
+      setImCallingFlag(false)
+      setVideo(false)
     }
     disconnect&&fetchData()
     return () => disconnect&&setDisconnect(false)
