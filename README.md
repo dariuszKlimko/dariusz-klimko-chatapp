@@ -11,6 +11,8 @@
 
 ## General info
 This is fullstack project and this is my third app.
+
+Here is deployed version: https://dariusz-klimko-chatapp.herokuapp.com/
 ## Prerequire
  * [mySQL](https://www.mysql.com/) database (mysql_host, mysql_port, mysql_user, mysql_password, database_name)
  * [cloudinary](https://cloudinary.com/) account (cloudinary_cloud_name, cloudinary_api_key, cloudinary_api_secret, cloudinary_folder_name, cloudinary_folder_name_1)(create two folders in cloudinary)
