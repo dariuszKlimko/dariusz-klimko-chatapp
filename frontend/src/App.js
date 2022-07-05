@@ -46,8 +46,8 @@ import AudioContactContext from './contexts/AudioContactContext'
 import AudioCallingContext from './contexts/AudioCallingContext'
 import AudioBusyContext from './contexts/AudioBusyContext'
 import { createTheme, ThemeProvider } from '@mui/material';
-import audio_1 from '../audio/Messenger_-_Sound_Sms_Message_Tone_Notification_efepn7.mp3'
-import audio_2 from '../audio/Sms_Tone_p99loh.mp3'
+import audio_1 from './audio/Messenger_-_Sound_Sms_Message_Tone_Notification_efepn7.mp3'
+import audio_2 from './audio/Sms_Tone_p99loh.mp3'
 import audio_3 from './audio/phone-calling-1_tdmwfg.mp3'
 import audio_4 from './audio/phone-busy-1_nn011n.mp3'
 

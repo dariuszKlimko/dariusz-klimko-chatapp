@@ -69,17 +69,17 @@ function Video() {
   const [audioBusy] = useContext(AudioBusyContext)
 
   const configuration = { 
-    iceServers: 
-    [
-      {
-        urls: process.env.REACT_APP_STUN_HOST
-      },
-      {
-        urls: process.env.REACT_APP_TURN_HOST,
-        username: process.env.REACT_APP_STUN_TURN_USERNAME,
-        credential: process.env.REACT_APP_STUN_TURN_PASSWORD
-      }
-    ]
+    // iceServers: 
+    // [
+    //   {
+    //     urls: process.env.REACT_APP_STUN_HOST
+    //   },
+    //   {
+    //     urls: process.env.REACT_APP_TURN_HOST,
+    //     username: process.env.REACT_APP_STUN_TURN_USERNAME,
+    //     credential: process.env.REACT_APP_STUN_TURN_PASSWORD
+    //   }
+    // ]
   };
 
 // ---------------------------------------------------------
