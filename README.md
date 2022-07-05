@@ -104,7 +104,7 @@ Create folder "ChatApp".
     )`
  ```
  
- In "Ecommerce" create folder "backend".
+ In "ChatApp" create folder "backend".
  
  Download all files (without package.json and package-lock.json) from folder "backend" in repository and paste it into Ecommerce/backend.
  ```
