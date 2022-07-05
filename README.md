@@ -18,6 +18,8 @@ Here is deployed version: https://dariusz-klimko-chatapp.herokuapp.com/
  * [cloudinary](https://cloudinary.com/) account (cloudinary_cloud_name, cloudinary_api_key, cloudinary_api_secret, cloudinary_folder_name, cloudinary_folder_name_1)(create two folders in cloudinary)
  * generate secret for access token
  * [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) credentials (recaptcha_site_key, recaptcha_secret_key)
+ * by default: authorization code - first 6 digits of Your mobile number with country code
+ * by default: force logout code - last 6 digits of Your mobile number
  * ### option
    * STUN/TURN server credentials (your_stun_server_host, your_turn_server_host, your_stun/turn_server_username, your_stun/turn_server_passowrd)
    * [aws](https://aws.amazon.com/) account (amazon_web_services_access_key_id, amazon_web_services_secret_access_key, amazon_web_services_region)
