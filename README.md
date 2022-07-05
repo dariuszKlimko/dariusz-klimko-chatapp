@@ -71,6 +71,8 @@ Create folder "ChatApp".
    * your_turn_server_host
    * your_stun/turn_server_username
    * your_stun/turn_server_passowrd
+   
+  If You want to insert STUN/TURN server data, go to file 'Video.js' and uncomment variable 'configuration'.
   
   Go to "frontend" folder and install packages.
   ```
