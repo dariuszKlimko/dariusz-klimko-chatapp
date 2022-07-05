@@ -86,7 +86,7 @@ Create folder "ChatApp".
   npm install react-scroll@1.8.6 react-textarea-autosize@8.3.3 react-uuid@1.0.2 socket.io-client@4.4.1 socketio-file-upload@0.7.3
   ```
  * ### Backend
- In Your mySQL database create 'users' table:
+ In Your MySQL database create 'users' table:
  ```
      `CREATE TABLE IF NOT EXISTs users(
         id INT PRIMARY KEY AUTO_INCREMENT,
