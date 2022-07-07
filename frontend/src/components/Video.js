@@ -69,8 +69,8 @@ function Video() {
   const [audioBusy] = useContext(AudioBusyContext)
 
   const configuration = { 
-    // iceServers: 
-    // [
+    iceServers: 
+    [
     //   {
     //     urls: process.env.REACT_APP_STUN_HOST
     //   },
@@ -79,7 +79,7 @@ function Video() {
     //     username: process.env.REACT_APP_STUN_TURN_USERNAME,
     //     credential: process.env.REACT_APP_STUN_TURN_PASSWORD
     //   }
-    // ]
+    ]
   };
 
 // ---------------------------------------------------------
@@ -254,15 +254,15 @@ function Video() {
   },[answerMade])
 // ------------------------------------------------------------------------------------------ 
   useEffect(()=>{
-      if(candidateAnswer!=''){
-        const {candidate, fromSocket} = candidateAnswer
-        cndt.current = [...cndt.current, candidate]
-        if(cndt.current.length!=0){
-          cndt.current.map(c=>{
-            localVideoRef.current&&localVideoRef.current.srcObject&&peer.current.addIceCandidate(c)
-          })
-        }
+    if(candidateAnswer!=''){
+      const {candidate, fromSocket} = candidateAnswer
+      cndt.current = [...cndt.current, candidate]
+      if(cndt.current.length!=0){
+        cndt.current.map(c=>{
+          localVideoRef.current&&localVideoRef.current.srcObject&&peer.current.addIceCandidate(c)
+        })
       }
+    }
   },[candidateAnswer])
 // ------------------------------------------------------------------------------------------ 
   useEffect(()=>{

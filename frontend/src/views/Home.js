@@ -112,6 +112,15 @@ function Home() {
   useEffect(()=>{
     responseGetConversations&&setChat(responseGetConversations.conversations)
   },[responseGetConversations])
+// ---------------------------------------------------
+  const changeNetworkHandler = () =>{
+    socket.emit('activeUsers')
+    window.location.reload()
+  }
+// ---------------------------------------------------
+  useEffect(()=>{
+    navigator.connection.onchange = changeNetworkHandler
+  },[])
 // -----------------------------------------------------
   useEffect(()=>{
     let cancelRequest = false
